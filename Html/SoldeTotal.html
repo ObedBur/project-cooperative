@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solde Total - Mwangaza Wetu</title>
+    <link rel="stylesheet" href="../Css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header-mw">
+      <a href="admin.html" class="btn-retour btn-retour-margin">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Solde Total</h1>
+          <p>Aperçu des soldes totaux de la coopérative</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-membres">
+      <div class="container-soldes">
+        <div class="solde-border-large solde-fc fade-in">
+            <div class="solde-header">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <h2>Solde Total FC</h2>
+            </div>
+            <div class="solde-content">
+                <div class="solde-amount" id="solde-total-fc">0 FC</div>
+                <div class="solde-details">
+                    <div class="solde-detail">
+                        <span class="label">En circulation</span>
+                        <span class="value" id="solde-circulation-fc">0 FC</span>
+                    </div>
+                    <div class="solde-detail">
+                        <span class="label">En épargne</span>
+                        <span class="value" id="solde-epargne-fc">0 FC</span>
+                    </div>
+                    <div class="solde-detail">
+                        <span class="label">Crédits en cours</span>
+                        <span class="value" id="solde-credits-fc">0 FC</span>
+                    </div>
+                </div>
+            </div>
+            <div class="solde-footer shine-effect">
+                <div class="trend positive">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    <span id="trend-fc">0% depuis le mois dernier</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="solde-border-large solde-usd fade-in">
+            <div class="solde-header">
+                <i class="fa-solid fa-dollar-sign"></i>
+                <h2>Solde Total USD</h2>
+            </div>
+            <div class="solde-content">
+                <div class="solde-amount" id="solde-total-usd">0 $</div>
+                <div class="solde-details">
+                    <div class="solde-detail">
+                        <span class="label">En circulation</span>
+                        <span class="value" id="solde-circulation-usd">0 $</span>
+                    </div>
+                    <div class="solde-detail">
+                        <span class="label">En épargne</span>
+                        <span class="value" id="solde-epargne-usd">0 $</span>
+                    </div>
+                    <div class="solde-detail">
+                        <span class="label">Crédits en cours</span>
+                        <span class="value" id="solde-credits-usd">0 $</span>
+                    </div>
+                </div>
+            </div>
+            <div class="solde-footer shine-effect">
+                <div class="trend positive">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    <span id="trend-usd">0% depuis le mois dernier</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-section fade-in">
+            <h3><i class="fa-solid fa-chart-pie"></i> Répartition des fonds</h3>
+            <div class="chart-container">
+                <div class="chart-placeholder">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <p>Graphique de répartition</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+    
+    <script src="../js/solde-total.js"></script>
+  </body>
+</html>

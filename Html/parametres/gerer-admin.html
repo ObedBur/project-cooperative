@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gérer les administrateurs</title>
+    <link rel="stylesheet" href="../../Css/parametre.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <a href="../admin.html" class="btn-retour">
+      <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+    </a>
+    <div class="admin-add-container">
+      <h1><i class="fa-solid fa-users-cog"></i> Gérer les administrateurs</h1>
+      <div class="filters">
+        <div class="input-group">
+          <label for="search"><i class="fa-solid fa-search"></i> Rechercher</label>
+          <input type="text" id="search" placeholder="Nom, prénom ou email..." />
+        </div>
+        
+        <div class="input-group">
+          <label for="role-filter"><i class="fa-solid fa-filter"></i> Filtrer par rôle</label>
+          <select id="role-filter">
+            <option value="">Tous les rôles</option>
+            <option value="Super Administrateur">Super Administrateur</option>
+            <option value="Administrateur">Administrateur</option>
+            <option value="Modérateur">Modérateur</option>
+          </select>
+        </div>
+        
+        <button id="filter-btn" class="btn-filter">
+          <i class="fa-solid fa-filter"></i> Filtrer
+        </button>
+        
+        <a href="ajouter-admin.html" class="btn-ajouter-admin">
+          <i class="fa-solid fa-user-plus"></i> Ajouter un administrateur
+        </a>
+      </div>
+      
+      <div class="admin-list">
+        <h2><i class="fa-solid fa-list"></i> Liste des administrateurs</h2>
+        <div class="table-responsive">
+          <table id="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Jean Dupont</td>
+                <td>jean.dupont@email.com</td>
+                <td>Super Administrateur</td>
+                <td><span class="status-active">Actif</span></td>
+                <td>
+                  <button class="btn-action btn-view" title="Voir détails">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="btn-action btn-edit" title="Modifier">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Marie Kamba</td>
+                <td>marie.kamba@email.com</td>
+                <td>Administrateur</td>
+                <td><span class="status-active">Actif</span></td>
+                <td>
+                  <button class="btn-action btn-view" title="Voir détails">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="btn-action btn-edit" title="Modifier">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button class="btn-action btn-delete" title="Supprimer">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Ali Ben</td>
+                <td>ali.ben@email.com</td>
+                <td>Modérateur</td>
+                <td><span class="status-inactive">Inactif</span></td>
+                <td>
+                  <button class="btn-action btn-view" title="Voir détails">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="btn-action btn-edit" title="Modifier">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button class="btn-action btn-delete" title="Supprimer">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <h2 class="mt-20"><i class="fa-solid fa-user-minus"></i> Supprimer un administrateur</h2>
+      <form id="admin-delete-form" class="admin-delete-form">
+        <div class="input-group">
+          <label for="delete-admin">
+            <i class="fa-solid fa-user-xmark"></i> Administrateur à supprimer
+          </label>
+          <select id="delete-admin" name="delete-admin" required>
+            <option value="">Sélectionner un administrateur</option>
+            <option value="2">Marie Kamba (Administrateur)</option>
+            <option value="3">Ali Ben (Modérateur)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="delete-reason">
+            <i class="fa-solid fa-comment"></i> Motif de suppression
+          </label>
+          <textarea id="delete-reason" name="delete-reason" rows="3" placeholder="Raison de la suppression..."></textarea>
+        </div>
+        <div class="form-buttons">
+          <button type="submit" class="btn-supprimer-admin">
+            <i class="fa-solid fa-trash"></i> Supprimer
+          </button>
+          <button type="reset" class="btn-reset">
+            <i class="fa-solid fa-undo"></i> Annuler
+          </button>
+        </div>
+      </form>
+      
+      <div id="message" class="message-container" style="display: none;"></div>
+    </div>
+    
+    <script src="../../js/parametres.js"></script>
+  </body>
+</html>

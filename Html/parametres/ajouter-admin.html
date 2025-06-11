@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajouter un administrateur</title>
+    <link rel="stylesheet" href="../../Css/parametre.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <a href="../admin.html" class="btn-retour">
+      <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+    </a>
+    <div class="admin-add-container">
+      <h1><i class="fa-solid fa-user-plus"></i> Ajouter un administrateur</h1>
+      <form class="admin-add-form">
+        <div class="input-group">
+          <label for="nom"><i class="fa-solid fa-user"></i> Nom</label>
+          <input type="text" id="nom" name="nom" placeholder="Nom" required />
+        </div>
+        <div class="input-group">
+          <label for="prenom"><i class="fa-solid fa-user"></i> Prénom</label>
+          <input
+            type="text"
+            id="prenom"
+            name="prenom"
+            placeholder="Prénom"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="exemple@domaine.com"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="tel"><i class="fa-solid fa-phone"></i> Téléphone</label>
+          <input
+            type="tel"
+            id="tel"
+            name="tel"
+            placeholder="+243 000 000 000"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="username"><i class="fa-solid fa-user-tag"></i> Nom d'utilisateur</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Nom d'utilisateur"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Mot de passe"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="role"><i class="fa-solid fa-user-shield"></i> Rôle</label>
+          <select id="role" name="role" required>
+            <option value="">Sélectionnez un rôle</option>
+            <option value="admin">Administrateur</option>
+            <option value="superadmin">Super Administrateur</option>
+            <option value="moderateur">Modérateur</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="status"><i class="fa-solid fa-toggle-on"></i> Statut</label>
+          <select id="status" name="status" required>
+            <option value="active">Actif</option>
+            <option value="inactive">Inactif</option>
+          </select>
+        </div>
+        <div class="form-buttons">
+          <button type="submit" class="btn-ajouter-admin">
+            <i class="fa-solid fa-plus"></i> Ajouter l'administrateur
+          </button>
+          <button type="reset" class="btn-reset">
+            <i class="fa-solid fa-undo"></i> Réinitialiser
+          </button>
+        </div>
+      </form>
+      <div id="message" class="message-container" style="display: none;"></div>
+    </div>
+    <script src="../../js/parametres.js"></script>
+  </body>
+</html>

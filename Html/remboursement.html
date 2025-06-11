@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suivi des Remboursements</title>
+    <link rel="stylesheet" href="../Css/style.css" />
+    <link rel="stylesheet" href="../Css/membres.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header-mw">
+      <a href="admin.html" class="btn-retour btn-retour-margin">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Suivi des Remboursements</h1>
+          <p>Consulter et effectuer les remboursements de crédits (Taux d'intérêt: 15%)</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-membres">
+      <div class="container-flex">
+        <!-- Colonne formulaire -->
+        <div class="form-border">
+          <div class="input-group">
+            <label for="numero-compte"><i class="fa-solid fa-hashtag"></i> Numéro de compte du membre</label>
+            <input
+              type="text"
+              id="numero-compte"
+              name="numero-compte"
+              required
+              placeholder="Saisir le numéro de compte du membre"
+            />
+          </div>
+          
+          <div id="info-soldes" class="info-soldes" style="display: none;">
+            <h4><i class="fa-solid fa-wallet"></i> Informations du compte</h4>
+            <div class="solde-item">
+              <span>Solde FC:</span>
+              <span id="solde-fc">0 FC</span>
+            </div>
+            <div class="solde-item">
+              <span>Solde USD:</span>
+              <span id="solde-usd">0 $</span>
+            </div>
+            <div class="solde-item">
+              <span>Crédits actifs:</span>
+              <span id="credits-actifs">0</span>
+            </div>
+            <div class="solde-item">
+              <span>Total dû:</span>
+              <span id="total-du">0</span>
+            </div>
+          </div>
+
+          <div class="remboursement-section">
+            <h3><i class="fa-solid fa-cash-register"></i> Effectuer un Remboursement</h3>
+            <form id="formRemboursement">
+              <div class="input-group">
+                <label for="select-credit"><i class="fa-solid fa-hand-holding-dollar"></i> Choisir un prêt à rembourser</label>
+                <select id="select-credit" name="credit_id" required disabled>
+                  <option value="">-- Sélectionnez un prêt --</option>
+                </select>
+              </div>
+              
+              <div id="credit-details" style="display: none;">
+                <h4 style="margin-bottom: 10px;"><i class="fa-solid fa-info-circle"></i> Détails du crédit</h4>
+                <div class="detail-grid">
+                  <div class="detail-item">
+                    <span class="detail-label">Montant initial:</span>
+                    <span class="detail-value" id="detail-montant-initial">0</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Montant avec intérêts (15%):</span>
+                    <span class="detail-value" id="detail-montant-total">0</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Déjà remboursé:</span>
+                    <span class="detail-value" id="detail-deja-rembourse">0</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Reste à payer:</span>
+                    <span class="detail-value highlight" id="detail-reste-a-payer">0</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="input-group">
+                <label for="montant-rembourse"><i class="fa-solid fa-money-bill-wave"></i> Montant à rembourser</label>
+                <div class="input-devise">
+                  <input
+                    type="number"
+                    id="montant-rembourse"
+                    name="montant-rembourse"
+                    required
+                    min="0.01"
+                    step="0.01"
+                    placeholder="Montant"
+                    disabled
+                  />
+                  <span id="devise-remboursement" class="devise-span"></span>
+                </div>
+              </div>
+              
+              <div class="info-box">
+                <h4><i class="fa-solid fa-chart-pie"></i> Répartition des intérêts (15%):</h4>
+                <ul>
+                  <li>10% vers le fonds du système</li>
+                  <li>5% vers le compte d'épargne du membre</li>
+                </ul>
+              </div>
+              
+              <button
+                type="submit"
+                id="btn-rembourser"
+                class="btn-ajouter-membre"
+                disabled
+              >
+                <i class="fa-solid fa-cash-register"></i> Valider le remboursement
+              </button>
+            </form>
+            <div id="message-remboursement"></div>
+          </div>
+        </div>
+
+        <!-- Colonne affichage -->
+        <div class="affichage-border">
+          <h3><i class="fa-solid fa-history"></i> Historique des crédits</h3>
+          <div class="credit-cards-container" id="liste-credits-historique">
+            <p class="message-placeholder">
+              Veuillez saisir un numéro de compte pour voir l'historique.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="../js/remboursement.js"></script>
+  </body>
+</html>

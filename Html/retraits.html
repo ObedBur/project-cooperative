@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suivi des Retraits</title>
+    <link rel="stylesheet" href="../Css/style.css" />
+    <link rel="stylesheet" href="../Css/membres.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header-mw">
+      <a href="admin.html" class="btn-retour btn-retour-margin">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Suivi des Retraits</h1>
+          <p>Ajouter ou consulter les retraits d'épargne</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-membres">
+      <div class="container-flex">
+        <div class="form-border fade-in">
+          <form class="form-membre" id="formRetrait">
+            <h3><i class="fa-solid fa-money-bill-wave"></i> Nouveau Retrait</h3>
+            
+            <div class="input-group">
+              <label for="numero-compte">
+                <i class="fa-solid fa-hashtag"></i> Numéro de compte
+              </label>
+              <input
+                type="text"
+                id="numero-compte"
+                name="numero-compte"
+                required
+                placeholder="Entrez le numéro de compte"
+              />
+            </div>
+            
+            <!-- Affichage automatique des soldes -->
+            <div class="soldes-info-container" id="soldes-info">
+              <div class="solde-info-item">
+                <label><i class="fa-solid fa-money-bill"></i> Solde FC</label>
+                <div class="solde-info-value" id="solde-info-fc">0.00 FC</div>
+                <div class="max-retirable">Maximum retirable: <span id="max-retirable-fc">0.00 FC</span></div>
+              </div>
+              <div class="solde-info-item">
+                <label><i class="fa-solid fa-dollar-sign"></i> Solde USD</label>
+                <div class="solde-info-value" id="solde-info-usd">0.00 $</div>
+                <div class="max-retirable">Maximum retirable: <span id="max-retirable-usd">0.00 $</span></div>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="date-retrait">
+                <i class="fa-solid fa-calendar-days"></i> Date du retrait
+              </label>
+              <input
+                type="date"
+                id="date-retrait"
+                name="date-retrait"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="montant-retire">
+                <i class="fa-solid fa-coins"></i> Montant retiré
+              </label>
+              <div class="input-devise">
+                <input
+                  type="number"
+                  id="montant-retire"
+                  name="montant-retire"
+                  min="0"
+                  step="0.01"
+                  required
+                  placeholder="Montant"
+                />
+                <select
+                  class="select-devise"
+                  name="devise-montant-retire"
+                  aria-label="Devise"
+                >
+                  <option value="CDF">FC</option>
+                  <option value="USD">$</option>
+                </select>
+                <span class="montant-affiche"></span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-ajouter-membre">
+              <i class="fa-solid fa-money-bill-wave"></i> Ajouter le retrait
+            </button>
+          </form>
+        </div>
+
+        <div class="affichage-border fade-in">
+          <h3><i class="fa-solid fa-chart-line"></i> Historique des retraits</h3>
+          
+          <div class="soldes-display">
+            <div class="solde-card">
+              <h4>Solde actuel FC</h4>
+              <div class="montant" id="solde-display-fc">0.00 FC</div>
+            </div>
+            <div class="solde-card">
+              <h4>Solde actuel USD</h4>
+              <div class="montant" id="solde-display-usd">0.00 $</div>
+            </div>
+          </div>
+
+          <table class="table-membres">
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-calendar"></i> Date du retrait</th>
+                <th><i class="fa-solid fa-hashtag"></i> Numéro de compte</th>
+                <th><i class="fa-solid fa-money-bill"></i> Montant retiré</th>
+              </tr>
+            </thead>
+            <tbody id="retraits-tbody">
+              <tr>
+                <td colspan="3" style="text-align: center; padding: 2rem;">
+                  <div class="loading"></div>
+                  <span style="margin-left: 1rem;">Chargement des données...</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="../js/retraits.js"></script>
+  </body>
+</html>

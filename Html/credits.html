@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des Crédits</title>
+    <link rel="stylesheet" href="../Css/style.css" />
+    <link rel="stylesheet" href="../Css/membres.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* Amélioration visuelle des éléments du crédit */
+      .form-border, .affichage-border {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 25px;
+        background: white;
+        transition: all 0.3s ease;
+      }
+      
+      .form-border:hover, .affichage-border:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+      }
+      
+      /* Adaptation de la largeur des conteneurs */
+      .container-flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      
+      .form-border {
+        width: 40%;
+        min-width: 350px;
+      }
+      
+      .affichage-border {
+        width: 60%;
+      }
+      
+      /* Amélioration visuelle du bouton d'ajout */
+      .btn-ajouter-membre {
+        padding: 16px 20px;
+        font-size: 18px;
+        background: linear-gradient(135deg, #4a6da7 0%, #6889c0 100%);
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(74, 109, 167, 0.4);
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+      
+      .btn-ajouter-membre:before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+        transform: rotate(45deg);
+        width: 60px;
+        animation: sheen 3s infinite;
+      }
+      
+      @keyframes sheen {
+        0% { left: -80px; }
+        20% { left: 120%; }
+        100% { left: 120%; }
+      }
+      
+      .btn-ajouter-membre:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(74, 109, 167, 0.5);
+      }
+      
+      .btn-ajouter-membre:active {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 8px rgba(74, 109, 167, 0.4);
+      }
+      
+      .btn-ajouter-membre i {
+        font-size: 20px;
+        margin-right: 8px;
+      }
+      
+      /* Loader pour le bouton */
+      .btn-ajouter-membre.loading {
+        position: relative;
+        color: transparent !important;
+      }
+      
+      .btn-ajouter-membre.loading::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        top: calc(50% - 10px);
+        left: calc(50% - 10px);
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Amélioration des entrées */
+      .form-membre input,
+      .form-membre select {
+        padding: 12px 15px;
+        font-size: 16px;
+        border-radius: 6px;
+      }
+      
+      .form-membre label {
+        font-size: 15px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .form-membre label i {
+        color: #4a6da7;
+      }
+      
+      /* Input with autocomplete styling */
+      .input-group {
+        position: relative;
+        margin-bottom: 15px;
+      }
+      
+      .input-group.loading::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(0,0,0,0.1);
+        border-radius: 50%;
+        border-top-color: #4a6da7;
+        animation: spin 1s ease-in-out infinite;
+        right: 12px;
+        top: calc(50% + 4px);
+      }
+      
+      /* Suggestions styling */
+      .suggestions-list {
+        position: absolute;
+        background: white;
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+      }
+      
+      .suggestion-item {
+        padding: 12px 15px;
+        cursor: pointer;
+        border-bottom: 1px solid #f5f5f5;
+        transition: background 0.2s ease;
+      }
+      
+      .suggestion-item:hover, .suggestion-item:focus {
+        background: #f5f7fa;
+      }
+      
+      /* Info soldes */
+      .info-soldes {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 4px solid #4a6da7;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.5s ease;
+      }
+      
+      .info-soldes.active {
+        opacity: 1;
+        max-height: 300px;
+        margin: 20px 0;
+      }
+      
+      .info-soldes h4 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 16px;
+        color: #4a6da7;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .solde-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      .solde-item:last-child {
+        border-bottom: none;
+      }
+      
+      .solde-item span:last-child {
+        font-weight: 600;
+      }
+      
+      /* Styling des cartes de crédit */
+      .credit-cards-container {
+        margin-top: 20px;
+        overflow-y: auto;
+        max-height: 500px;
+        padding-right: 10px;
+      }
+      
+      .credit-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        border-left: 4px solid #4a6da7;
+        transition: all 0.3s ease;
+      }
+      
+      .credit-card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+      }
+      
+      .credit-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      .credit-header h4 {
+        margin: 0;
+        font-size: 16px;
+        color: #4a6da7;
+      }
+      
+      .credit-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .detail-item, .credit-detail {
+        margin-bottom: 8px;
+      }
+      
+      .detail-label, .credit-label {
+        font-size: 13px;
+        color: #6c757d;
+        display: block;
+        margin-bottom: 3px;
+      }
+      
+      .detail-value, .credit-value {
+        font-weight: 600;
+        color: #495057;
+      }
+      
+      .highlight {
+        color: #4a6da7;
+      }
+      
+      .status-en-cours, .status-actif {
+        background-color: #cce5ff;
+        color: #004085;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      
+      .status-rembourse {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      
+      /* Message placeholder */
+      .message-placeholder {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6c757d;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px dashed #dee2e6;
+      }
+      
+      /* Message d'erreur/succès */
+      #message-ajout {
+        margin-top: 15px;
+        padding: 12px 15px;
+        border-radius: 5px;
+        display: none;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+      }
+      
+      .message-success {
+        background-color: #d4edda;
+        border-left-color: #28a745 !important;
+        color: #155724;
+      }
+      
+      .message-error {
+        background-color: #f8d7da;
+        border-left-color: #dc3545 !important;
+        color: #721c24;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container-flex {
+          flex-direction: column;
+        }
+        
+        .form-border, .affichage-border {
+          width: 100%;
+        }
+        
+        .credit-info, .detail-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header-mw">
+      <a href="admin.html" class="btn-retour btn-retour-margin">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Gestion des Crédits</h1>
+          <p>Ajouter un crédit ou consulter les remboursements</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-membres">
+      <div class="container-flex">
+        <!-- Colonne formulaire -->
+        <div class="form-border">
+          <form class="form-membre" id="formAjoutCredit">
+            <h3><i class="fa-solid fa-file-invoice-dollar"></i> Nouveau Crédit</h3>
+            <div class="input-group">
+              <label for="numero-compte"><i class="fa-solid fa-hashtag"></i> Numéro de compte</label>
+              <input
+                type="text"
+                id="numero-compte"
+                name="numero-compte"
+                required
+                placeholder="Entrez le numéro de compte"
+                autocomplete="off"
+              />
+            </div>
+            
+            <div id="info-soldes" class="info-soldes">
+              <h4><i class="fa-solid fa-wallet"></i> Informations du compte</h4>
+              <div class="solde-item">
+                <span>Solde FC:</span>
+                <span id="solde-fc">0 FC</span>
+              </div>
+              <div class="solde-item">
+                <span>Solde USD:</span>
+                <span id="solde-usd">0 $</span>
+              </div>
+              <div class="solde-item">
+                <span>Crédits actifs:</span>
+                <span id="credits-actifs">0</span>
+              </div>
+              <div class="solde-item">
+                <span>Total dû:</span>
+                <span id="total-du">0</span>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label for="date-pret"><i class="fa-solid fa-calendar-days"></i> Date du prêt</label>
+              <input type="date" id="date-pret" name="date-pret" required />
+            </div>
+            <div class="input-group">
+              <label for="montant-pret"><i class="fa-solid fa-coins"></i> Montant du prêt</label>
+              <div class="input-devise">
+                <input
+                  type="number"
+                  id="montant-pret"
+                  name="montant-pret"
+                  min="0"
+                  step="0.01"
+                  required
+                  placeholder="Montant"
+                />
+                <select
+                  class="select-devise"
+                  name="devise-montant-pret"
+                  id="devise-montant-pret"
+                  aria-label="Devise du prêt"
+                >
+                  <option value="CDF">FC</option>
+                  <option value="USD">$</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-ajouter-membre" id="submitBtn">
+              <i class="fa-solid fa-file-invoice-dollar"></i> Accorder le crédit
+            </button>
+            <div id="message-ajout"></div>
+          </form>
+        </div>
+        
+        <!-- Colonne affichage -->
+        <div class="affichage-border">
+          <h3><i class="fa-solid fa-history"></i> Historique des crédits</h3>
+          <div id="liste-credits-historique">
+            <p class="message-placeholder">
+              <i class="fa-solid fa-info-circle"></i> Veuillez saisir un numéro de compte pour voir l'historique.
+            </p>
+          </div>
+          
+          <div class="credit-cards-container" id="tableCredits">
+            <!-- Les données des crédits seront chargées ici -->
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <script src="../js/credits.js"></script>
+    
+    <script>
+      // Script pour améliorer les animations et interactions
+      document.addEventListener('DOMContentLoaded', function() {
+        const numeroCompteInput = document.getElementById('numero-compte');
+        const infoSoldes = document.getElementById('info-soldes');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageAjout = document.getElementById('message-ajout');
+        
+        // Animation du bouton lors du clic
+        submitBtn.addEventListener('mousedown', function() {
+          this.classList.add('active');
+        });
+        
+        submitBtn.addEventListener('mouseup', function() {
+          this.classList.remove('active');
+        });
+        
+        // Animation de la boîte info-soldes
+        numeroCompteInput.addEventListener('focus', function() {
+          if (this.value.trim().length > 0) {
+            infoSoldes.classList.add('active');
+          }
+        });
+        
+        // Afficher les messages avec animation
+        function showMessage(message, isSuccess) {
+          messageAjout.textContent = message;
+          messageAjout.className = isSuccess ? 'message-success' : 'message-error';
+          messageAjout.style.display = 'block';
+          messageAjout.style.opacity = '0';
+          
+          setTimeout(() => {
+            messageAjout.style.opacity = '1';
+          }, 10);
+          
+          if (isSuccess) {
+            setTimeout(() => {
+              messageAjout.style.opacity = '0';
+              setTimeout(() => {
+                messageAjout.style.display = 'none';
+              }, 300);
+            }, 5000);
+          }
+        }
+        
+        // Préparer l'effet de chargement pour le bouton
+        submitBtn.addEventListener('click', function() {
+          if (numeroCompteInput.value.trim() === '') {
+            showMessage('Veuillez saisir un numéro de compte', false);
+            return;
+          }
+          
+          if (!document.getElementById('formAjoutCredit').checkValidity()) {
+            return;
+          }
+          
+          this.classList.add('loading');
+          setTimeout(() => {
+            this.classList.remove('loading');
+          }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>

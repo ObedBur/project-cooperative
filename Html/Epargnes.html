@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suivi des Épargnes</title>
+    <link rel="stylesheet" href="../Css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+    <style>
+      /* Styles personnalisés pour la page épargnes */
+      .soldes-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 15px;
+      }
+
+      .solde-card {
+        flex: 1;
+        padding: 15px;
+        border-radius: 10px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+      }
+      
+      .solde-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .solde-fc {
+        background: linear-gradient(135deg, #4a6da7 0%, #6889c0 100%);
+      }
+
+      .solde-usd {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+      }
+
+      .solde-icon {
+        font-size: 28px;
+        background: rgba(255, 255, 255, 0.2);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .solde-details {
+        flex: 1;
+      }
+
+      .solde-label {
+        font-size: 0.85em;
+        opacity: 0.8;
+        margin-bottom: 5px;
+      }
+
+      .solde-value {
+        font-size: 1.3em;
+        font-weight: bold;
+      }
+
+      /* Améliorations du formulaire */
+      .montant-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .select-devise {
+        width: 80px;
+        flex-shrink: 0;
+      }
+
+      /* Amélioration du tableau */
+      .table-highlight td {
+        font-weight: 500;
+      }
+
+      .currency-fc {
+        color: #4a6da7;
+        font-weight: bold;
+      }
+
+      .currency-usd {
+        color: #27ae60;
+        font-weight: bold;
+      }
+      
+      /* Ajustements pour la visibilité des éléments */
+      .form-container {
+        min-width: 350px;
+        width: 35%;
+        padding: 25px;
+      }
+      
+      .table-container {
+        width: 65%;
+      }
+      
+      .form-membre input,
+      .form-membre select {
+        padding: 12px 15px;
+        font-size: 16px;
+      }
+      
+      .form-membre label {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      
+      /* Amélioration visuelle du bouton d'ajout */
+      .btn-ajouter-membre {
+        padding: 16px 20px;
+        font-size: 18px;
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(39, 174, 96, 0.4);
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .btn-ajouter-membre:before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+        transform: rotate(45deg);
+        width: 60px;
+        animation: sheen 3s infinite;
+      }
+      
+      @keyframes sheen {
+        0% { left: -80px; }
+        20% { left: 120%; }
+        100% { left: 120%; }
+      }
+      
+      
+      
+      .btn-ajouter-membre:active {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 8px rgba(39, 174, 96, 0.4);
+      }
+      
+      .btn-ajouter-membre i {
+        font-size: 20px;
+        margin-right: 8px;
+      }
+      
+      .form-buttons {
+        margin-top: 25px;
+      }
+      
+      /* Message d'erreur/succès */
+      #message {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+        transition: opacity 0.3s, transform 0.3s;
+      }
+      
+      .message.success {
+        background-color: #d4edda;
+        border-left: 4px solid #28a745;
+        color: #155724;
+      }
+      
+      .message.error {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+      }
+      
+      /* Animation pour les nouvelles entrées */
+      @keyframes highlightRow {
+        0% { background-color: rgba(102, 126, 234, 0.2); }
+        100% { background-color: transparent; }
+      }
+      
+      .table-highlight {
+        animation: highlightRow 2s ease-out;
+      }
+      
+      /* Loader pour le bouton */
+      .btn-ajouter-membre.loading {
+        position: relative;
+        color: transparent !important;
+      }
+      
+      .btn-ajouter-membre.loading::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        top: calc(50% - 10px);
+        left: calc(50% - 10px);
+      }
+      
+      /* Suggestion de compte */
+      .suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        max-height: 150px;
+        overflow-y: auto;
+        z-index: 10;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      
+      .suggestion-item {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      /* Styles pour l'affichage du solde */
+      .solde-info {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+      }
+      
+      .solde-info-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .solde-info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px dashed #e0e0e0;
+      }
+      
+      .solde-info-row:last-child {
+        border-bottom: none;
+      }
+      
+      .highlight-bonus {
+        font-weight: bold;
+        color: #4CAF50;
+        animation: pulse 1.5s infinite;
+      }
+      
+      @keyframes pulse {
+        0% { opacity: 0.8; }
+        50% { opacity: 1; }
+        100% { opacity: 0.8; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header-mw">
+      <a href="admin.html" class="btn-retour btn-retour-margin">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Suivi des Épargnes</h1>
+          <p>Ajouter un dépôt ou consulter l'historique</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-membres">
+      <div class="container-flex">
+        <div class="form-container">
+          <h3><i class="fa-solid fa-piggy-bank"></i> Nouveau Dépôt</h3>
+          <form class="form-membre" id="depotForm">
+            <div class="input-group">
+              <label for="compte"><i class="fa-solid fa-user"></i> Numéro de compte</label>
+              <div class="input-avec-suggestions">
+                <input
+                  type="text"
+                  id="compte"
+                  name="compte"
+                  placeholder="123-456"
+                  required
+                />
+                <div class="suggestions" id="suggestions-compte"></div>
+              </div>
+            </div>
+            
+            <!-- Nouvel élément pour afficher le solde total avec bonus -->
+            <div class="input-group solde-info" id="soldeInfoContainer" style="display: none;">
+              <div class="solde-info-content">
+                <div class="solde-info-row">
+                  <span><i class="fa-solid fa-coins"></i> Solde FC:</span>
+                  <span id="infoSoldeFC" class="currency-fc">0 FC</span>
+                </div>
+                <div class="solde-info-row">
+                  <span><i class="fa-solid fa-dollar-sign"></i> Solde USD:</span>
+                  <span id="infoSoldeUSD" class="currency-usd">0 $</span>
+                </div>
+                <div class="solde-info-row">
+                  <span><i class="fa-solid fa-percentage"></i> Avec bonus 5% FC:</span>
+                  <span id="infoBonusFC" class="currency-fc highlight-bonus">0 FC</span>
+                </div>
+                <div class="solde-info-row">
+                  <span><i class="fa-solid fa-percentage"></i> Avec bonus 5% USD:</span>
+                  <span id="infoBonusUSD" class="currency-usd highlight-bonus">0 $</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label for="typeCompte"><i class="fa-solid fa-money-bill-wave"></i> Type de compte</label>
+              <select id="typeCompte" name="typeCompte" required>
+                <option value="">--Choisir--</option>
+                <option value="FC">Francs Congolais (FC)</option>
+                <option value="USD">Dollars Américains (USD)</option>
+              </select>
+            </div>
+            
+            <div class="input-group">
+              <label for="date"><i class="fa-solid fa-calendar"></i> Date du dépôt</label>
+              <input type="date" id="date" name="date" required />
+            </div>
+            
+            <div class="input-group">
+              <label for="montant"><i class="fa-solid fa-coins"></i> Montant</label>
+              <div class="montant-group">
+                <input
+                  type="number"
+                  id="montant"
+                  name="montant"
+                  placeholder="Montant"
+                  step="0.01"
+                  min="0.01"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div class="form-buttons">
+              <button type="submit" class="btn-ajouter-membre" id="submitBtn">
+                <i class="fa-solid fa-plus"></i> Ajouter le dépôt
+              </button>
+            </div>
+            
+            <div id="message" class="full-width" role="alert" aria-live="polite"></div>
+          </form>
+        </div>
+        
+        <div class="table-container">
+          <h3><i class="fa-solid fa-chart-line"></i> Historique des dépôts</h3>
+          
+          <div class="soldes-container">
+            <div class="solde-card solde-fc">
+              <div class="solde-icon">
+                <i class="fa-solid fa-coins"></i>
+              </div>
+              <div class="solde-details">
+                <div class="solde-label">Epargne Total FC</div>
+                <div class="solde-value" id="soldeFC">0 FC</div>
+              </div>
+            </div>
+            
+            <div class="solde-card solde-usd">
+              <div class="solde-icon">
+                <i class="fa-solid fa-dollar-sign"></i>
+              </div>
+              <div class="solde-details">
+                <div class="solde-label">Epargne Total USD</div>
+                <div class="solde-value" id="soldeUSD">0 $</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Numéro du membre</th>
+                  <th>Type de Compte</th>
+                  <th>Date</th>
+                  <th>Montant</th>
+                  <th>Cumul FC</th>
+                  <th>Cumul USD</th>
+                </tr>
+              </thead>
+              <tbody id="depotTableBody">
+                <tr>
+                  <td colspan="6" style="text-align:center;padding:20px;">
+                    <div class="loading"></div>
+                    <span style="margin-left: 1rem;">Chargement des données depuis EpargneFC et EpargneUSD...</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="../js/epargne.js"></script>
+  </body>
+</html>

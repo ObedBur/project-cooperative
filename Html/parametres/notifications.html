@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications de Paiement</title>
+    <link rel="stylesheet" href="../../Css/parametre.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <a href="../admin.html" class="btn-retour">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+    <div class="admin-add-container">
+      <h1><i class="fa-solid fa-bell"></i> Notifications <span class="notification-badge">7</span></h1>
+      
+      <div class="filters">
+        <div class="input-group">
+          <label for="search"><i class="fa-solid fa-search"></i> Rechercher</label>
+          <input type="text" id="search" placeholder="Rechercher une notification..." />
+        </div>
+        
+        <div class="input-group">
+          <label for="filter-type"><i class="fa-solid fa-filter"></i> Type</label>
+          <select id="filter-type">
+            <option value="all">Tous</option>
+            <option value="payment">Paiement</option>
+            <option value="credit">Crédit</option>
+            <option value="system">Système</option>
+          </select>
+        </div>
+        
+        <button id="mark-all-read" class="btn-mark-all">
+          <i class="fa-solid fa-check-double"></i> Tout marquer comme lu
+        </button>
+      </div>
+      
+      <div class="table-responsive">
+        <table id="notifications-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Message</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="notifications-tbody">
+            <tr class="notification-unread highlight-new">
+              <td>06/06/2024</td>
+              <td><span class="status-inactive">Crédit</span></td>
+              <td>Le crédit #CR-2024-56789 a dépassé sa date d'échéance de 3 jours</td>
+              <td>Non lu</td>
+              <td>
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-action btn-mark" title="Marquer comme lu">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+            <tr class="notification-unread">
+              <td>05/06/2024</td>
+              <td><span class="status-inactive">Crédit</span></td>
+              <td>Le crédit #CR-2024-45678 a dépassé sa date d'échéance de 5 jours</td>
+              <td>Non lu</td>
+              <td>
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-action btn-mark" title="Marquer comme lu">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+            <tr class="notification-unread">
+    
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-action btn-mark" title="Marquer comme lu">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+            
+              <td>
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+            <tr class="notification-unread">
+              
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-action btn-mark" title="Marquer comme lu">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+            <tr class="notification-unread">
+              <td>31/05/2024</td>
+              <td><span class="status-inactive">Crédit</span></td>
+              <td>Le crédit #CR-2024-23456 a dépassé sa date d'échéance de 15 jours</td>
+              <td>Non lu</td>
+              <td>
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-action btn-mark" title="Marquer comme lu">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+            <tr class="notification-unread">
+                <button class="btn-action btn-view" title="Voir les détails">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn-action btn-mark" title="Marquer comme lu">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div id="message-notification" class="mt-20"></div>
+    </div>
+    
+    <script src="../../js/parametres.js"></script>
+  </body>
+</html>

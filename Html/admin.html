@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Espace Administrateur - Coopérative Mwangaza Wetu</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="../Css/style.css" />
+  </head>
+  <body>
+    <header class="header-mw">
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Espace Administrateur</h1>
+          <p>Gestion de la coopérative Mwangaza Wetu</p>
+        </div>
+        <div class="search-block">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" placeholder="Rechercher un membre..." id="searchInput" />
+        </div>
+        <div class="user-block">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Administrateur</span>
+          <div class="param-fab-header" id="paramFabHeader" title="Paramètres">
+            <i class="fa-solid fa-gear"></i>
+          </div>
+          <div class="param-menu" id="paramMenu">
+            <ul>
+              <li>
+                <a href="parametres/ajouter-admin.html">
+                  <i class="fa-solid fa-user-plus"></i> Ajouter un administrateur
+                </a>
+              </li>
+              <li>
+                <a href="parametres/gerer-admin.html">
+                  <i class="fa-solid fa-users-cog"></i> Gérer les administrateurs
+                </a>
+              </li>
+              <li>
+                <a href="parametres/parametres-generaux.html">
+                  <i class="fa-solid fa-cogs"></i> Paramètres généraux
+                </a>
+              </li>
+              <li>
+                <a href="parametres/historique.html">
+                  <i class="fa-solid fa-history"></i> Historique des actions
+                </a>
+              </li>
+              <li>
+                <a href="parametres/info.html">
+                  <i class="fa-solid fa-building"></i> Infos sur la coopérative
+                </a>
+              </li>
+              <li>
+                <a href="parametres/aide-support.html">
+                  <i class="fa-solid fa-circle-question"></i> Aide & Support
+                </a>
+              </li>
+              <li>
+                <a href="" style="color: #c0392b;">
+                  <i class="fa-solid fa-sign-out-alt"></i> Se déconnecter
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="load-data-container" style="text-align: center; margin: 20px 0;">
+      <button id="loadDataBtn" class="load-data-btn">
+        <i class="fas fa-sync-alt"></i> Charger les données
+      </button>
+    </div>
+
+    <section class="dashboard-stats">
+      <div class="stat-card shine-effect">
+        <i class="fa-solid fa-users"></i>
+        <div class="stat-info">
+          <span id="total-membres"></span>
+          <p>Membres Actifs</p>
+        </div>
+      </div>
+      
+      <div class="stat-card shine-effect">
+        <i class="fa-solid fa-piggy-bank"></i>
+        <div class="stat-info">
+          <span id="solde-total-fc"></span>
+          <p>Épargne Totale (FC)</p>
+        </div>
+      </div>
+      
+      <div class="stat-card shine-effect">
+        <i class="fa-solid fa-piggy-bank"></i>
+        <div class="stat-info">
+          <span id="solde-total-usd"></span>
+          <p>Épargne Totale ($)</p>
+        </div>
+      </div>
+      
+      <div class="stat-card shine-effect">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <div class="stat-info">
+          <span id="dette-totale-fc"></span>
+          <p>Crédits en Cours (FC)</p>
+        </div>
+      </div>
+
+      <div class="stat-card shine-effect">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <div class="stat-info">
+          <span id="dette-totale-usd"></span>
+          <p>Crédits en Cours ($)</p>
+
+        </div>
+      </div>
+
+      <div class="stat-card shine-effect">
+        <i class="fa-solid fa-chart-line"></i>
+        <div class="stat-info">
+          <span id="benefice-total"></span>
+          <p>Bénéfices Mensuels</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="admin-main">
+
+      <div class="widget"> 
+        <h3><i class="fa-solid fa-hand-sparkles"></i> Bienvenue dans l'espace Administrateur</h3>
+        <div class="welcome-content">
+          <p>Cet espace vous permet de gérer l'ensemble des activités de la coopérative : membres, comptes, transactions, crédits, épargnes et rapports.</p>
+          <p><strong>Conseils :</strong></p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Vérifiez régulièrement les demandes d'adhésion et les mouvements de comptes.</li>
+            <li><i class="fa-solid fa-check"></i> Assurez-vous que les données des membres sont à jour.</li>
+            <li><i class="fa-solid fa-check"></i> Consultez les rapports mensuels pour suivre la santé financière de la coopérative.</li>
+            <li><i class="fa-solid fa-check"></i> Utilisez les paramètres pour gérer les administrateurs et personnaliser la plateforme.</li>
+            <li><i class="fa-solid fa-check"></i> Pour toute question ou assistance, contactez le support technique.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="widget">
+        <h3><i class="fa-solid fa-bolt"></i> Actions Rapides</h3>
+        <ul class="quick-actions-list">
+          <li class="quick-actions-divider"><span>Navigation Rapide</span></li>
+          <li><a href="membre.html"><i class="fa-solid fa-users"></i> Gestion des Membres</a></li>
+          <li><a href="Epargnes.html"><i class="fa-solid fa-piggy-bank"></i> Suivi des Épargnes</a></li>
+          <li><a href="retraits.html"><i class="fa-solid fa-money-bill-wave"></i> Retraits</a></li>
+          <li><a href="credits.html"><i class="fa-solid fa-file-invoice-dollar"></i> Crédits</a></li>
+          <li><a href="remboursement.html"><i class="fa-solid fa-cash-register"></i> Remboursements</a></li>
+          <li><a href="rapport.html"><i class="fa-solid fa-chart-line"></i> Rapport d'Activité</a></li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Élément pour les notifications -->
+    <div id="notification" class="notification">
+      <span id="notification-message"></span>
+    </div>
+
+    <script src="../js/admin.js"></script>
+  </body>
+</html>

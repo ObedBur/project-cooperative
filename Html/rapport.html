@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rapport d'Activité Mensuel</title>
+    <link rel="stylesheet" href="../Css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="header-mw">
+      <a href="admin.html" class="btn-retour btn-retour-margin">
+        <i class="fa-solid fa-arrow-left"></i> Retour à l'accueil
+      </a>
+      <div class="header-content">
+        <div class="title-block">
+          <h1>Rapport d'Activité Mensuel</h1>
+          <p>Générez un rapport financier détaillé pour suivre les performances</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-rapport">
+      <div class="rapport-container-main">
+        <!-- Panneau latéral avec options et filtres -->
+        <aside class="rapport-sidebar">
+          <div class="sidebar-section">
+            <h3><i class="fa-solid fa-filter"></i> Options du rapport</h3>
+            
+            <div class="input-group">
+              <label for="periode-rapport">Période :</label>
+              <input
+                type="month"
+                id="periode-rapport"
+                name="periode-rapport"
+                required
+              />
+            </div>
+            
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="inclure-epargne" checked>
+                <span class="checkbox-custom"></span>
+                Épargnes
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" id="inclure-credits" checked>
+                <span class="checkbox-custom"></span>
+                Crédits
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" id="inclure-benefices" checked>
+                <span class="checkbox-custom"></span>
+                Bénéfices
+              </label>
+            </div>
+            
+            <button id="btn-generer-rapport" class="btn-action">
+              <i class="fa-solid fa-cogs"></i> Générer le rapport
+            </button>
+            
+            <div class="rapport-tips">
+              <p><i class="fa-solid fa-lightbulb"></i> Astuce</p>
+              <small>Consultez l'évolution mensuelle pour identifier les tendances financières de la coopérative.</small>
+            </div>
+          </div>
+          
+          <div class="sidebar-section">
+            <h3><i class="fa-solid fa-cloud-arrow-down"></i> Exporter</h3>
+            <div class="export-buttons">
+              <button id="btn-imprimer-rapport" class="btn-export" disabled>
+                <i class="fa-solid fa-print"></i> Imprimer
+              </button>
+              <button id="btn-export-pdf" class="btn-export" disabled>
+                <i class="fa-solid fa-file-pdf"></i> PDF
+              </button>
+              <button id="btn-export-excel" class="btn-export" disabled>
+                <i class="fa-solid fa-file-excel"></i> Excel
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Section principale du rapport -->
+        <div class="rapport-content">
+          <div class="rapport-status-message" id="message-rapport"></div>
+          
+          <!-- Résumé du rapport -->
+          <div id="rapport-resume" class="rapport-panel" style="display: none;">
+            <div class="rapport-header">
+              <h2 id="rapport-titre">Rapport financier</h2>
+              <span class="rapport-badge" id="rapport-periode-badge">Mai 2023</span>
+            </div>
+            
+            <div class="rapport-kpi-grid">
+              <div class="rapport-kpi">
+                <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="kpi-content">
+                  <h4>Membres actifs</h4>
+                  <span id="kpi-membres-actifs">0</span>
+                </div>
+              </div>
+              
+              <div class="rapport-kpi">
+                <div class="kpi-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                <div class="kpi-content">
+                  <h4>Épargne totale</h4>
+                  <span id="kpi-epargne-totale">0 FC</span>
+                </div>
+              </div>
+              
+              <div class="rapport-kpi">
+                <div class="kpi-icon"><i class="fa-solid fa-landmark"></i></div>
+                <div class="kpi-content">
+                  <h4>Crédits en cours</h4>
+                  <span id="kpi-credits-cours">0 FC</span>
+                </div>
+              </div>
+              
+              <div class="rapport-kpi">
+                <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="kpi-content">
+                  <h4>Bénéfice net</h4>
+                  <span id="kpi-benefice-total">0 FC</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Graphiques -->
+          <div id="rapport-graphiques" class="rapport-panel" style="display: none;">
+            <div class="rapport-graphique-container">
+              <h3><i class="fa-solid fa-chart-column"></i> Évolution mensuelle</h3>
+              <div class="canvas-container">
+                <canvas id="chart-evolution"></canvas>
+              </div>
+            </div>
+            
+            <div class="rapport-graphiques-grid">
+              <div class="rapport-graphique-container">
+                <h3><i class="fa-solid fa-chart-pie"></i> Répartition FC/USD</h3>
+                <div class="canvas-container">
+                  <canvas id="chart-repartition"></canvas>
+                </div>
+              </div>
+              
+              <div class="rapport-graphique-container">
+                <h3><i class="fa-solid fa-scale-balanced"></i> Épargnes vs Crédits</h3>
+                <div class="canvas-container">
+                  <canvas id="chart-comparison"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Détails du rapport -->
+          <div id="rapport-display" class="rapport-panel" style="display: none;">
+            <h3><i class="fa-solid fa-list-ul"></i> Détails par devise</h3>
+            <div class="rapport-tabs">
+              <button class="tab-button active" data-target="tab-fc">Francs Congolais (FC)</button>
+              <button class="tab-button" data-target="tab-usd">Dollars (USD)</button>
+            </div>
+            
+            <div class="rapport-tab-content">
+              <!-- Tab FC -->
+              <div id="tab-fc" class="tab-pane active">
+                <div class="rapport-grid">
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                      <h4>Dépôts</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="depots-fc">--</p>
+                      <p class="rapport-label">Total des dépôts du mois</p>
+                      <div class="rapport-trend up">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        <span id="depots-fc-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      <h4>Retraits</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="retraits-fc">--</p>
+                      <p class="rapport-label">Total des retraits du mois</p>
+                      <div class="rapport-trend down">
+                        <i class="fa-solid fa-arrow-down"></i>
+                        <span id="retraits-fc-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-credit-card"></i>
+                      <h4>Crédits</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="credits-fc">--</p>
+                      <p class="rapport-label">Total des crédits accordés</p>
+                      <div class="rapport-trend neutral">
+                        <i class="fa-solid fa-minus"></i>
+                        <span id="credits-fc-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-percentage"></i>
+                      <h4>Intérêts</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="interets-fc">--</p>
+                      <p class="rapport-label">Intérêts perçus (10%)</p>
+                      <div class="rapport-trend up">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        <span id="interets-fc-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="rapport-benefice">
+                  <h3>Bénéfice Net</h3>
+                  <div class="benefice-value" id="benefice-fc">--</div>
+                </div>
+              </div>
+              
+              <!-- Tab USD -->
+              <div id="tab-usd" class="tab-pane">
+                <div class="rapport-grid">
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                      <h4>Dépôts</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="depots-usd">--</p>
+                      <p class="rapport-label">Total des dépôts du mois</p>
+                      <div class="rapport-trend up">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        <span id="depots-usd-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      <h4>Retraits</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="retraits-usd">--</p>
+                      <p class="rapport-label">Total des retraits du mois</p>
+                      <div class="rapport-trend down">
+                        <i class="fa-solid fa-arrow-down"></i>
+                        <span id="retraits-usd-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-credit-card"></i>
+                      <h4>Crédits</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="credits-usd">--</p>
+                      <p class="rapport-label">Total des crédits accordés</p>
+                      <div class="rapport-trend neutral">
+                        <i class="fa-solid fa-minus"></i>
+                        <span id="credits-usd-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="rapport-card">
+                    <div class="rapport-card-header">
+                      <i class="fa-solid fa-percentage"></i>
+                      <h4>Intérêts</h4>
+                    </div>
+                    <div class="rapport-card-body">
+                      <p class="rapport-value" id="interets-usd">--</p>
+                      <p class="rapport-label">Intérêts perçus (10%)</p>
+                      <div class="rapport-trend up">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        <span id="interets-usd-evolution">0%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="rapport-benefice">
+                  <h3>Bénéfice Net</h3>
+                  <div class="benefice-value" id="benefice-usd">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Tableau des transactions -->
+          <div id="rapport-transactions" class="rapport-panel" style="display: none;">
+            <h3><i class="fa-solid fa-table-list"></i> Transactions du mois</h3>
+            <div class="rapport-search">
+              <input type="text" id="transaction-search" placeholder="Rechercher une transaction...">
+              <button class="btn-search"><i class="fa-solid fa-search"></i></button>
+            </div>
+            
+            <div class="rapport-table-container">
+              <table class="rapport-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>N° Compte</th>
+                    <th>Type</th>
+                    <th>Montant</th>
+                    <th>Devise</th>
+                  </tr>
+                </thead>
+                <tbody id="transaction-table-body">
+                  <!-- Les données seront insérées ici par JavaScript -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="rapport-pagination">
+              <button id="prev-page" disabled><i class="fa-solid fa-angle-left"></i></button>
+              <span id="page-info">Page 1 sur 1</span>
+              <button id="next-page" disabled><i class="fa-solid fa-angle-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <script src="../js/rapport.js"></script>
+  </body>
+</html>

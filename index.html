@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+<body class="admin-login-page">
+    <h1>AdminPass</h1>
+    <form class="admin-login-form" id="loginForm" onsubmit="return redirectToAdmin(event)">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" placeholder="Entrez votre nom d'utilisateur">
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe">
+        </div>
+        <div class="form-group">
+            <button type="submit">Se connecter</button>
+        </div>
+    </form>
+
+    <script>
+        function redirectToAdmin(event) {
+            event.preventDefault(); // Empêcher la soumission normale du formulaire
+            window.location.href = './Html/admin.html'; // Rediriger vers admin.html
+            return false;
+        }
+    </script>
+</body>
+</html>
